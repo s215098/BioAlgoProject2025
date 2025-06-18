@@ -13,9 +13,11 @@ from argparse import ArgumentParser
 ### ARG PARSE
 parser = ArgumentParser(description="A Pep2mat program")
 parser.add_argument("-b", action="store", dest="beta", type=float, default=0, help="Beta value for the algorithm")
-parser.add_argument("-w", action="store_true", dest="sequence_weighting", help="Using sequence weighting")
+parser.add_argument("-w", action="store_true", dest="sequence_weighting", default = True, help="Using sequence weighting")
 parser.add_argument("-f", action="store", dest="peptides_file", type=str, default = "PSSM/A0101/A0101_bind.dat", help="File with peptides")
+
 args = parser.parse_args()
+
 beta = args.beta
 peptides_file = args.peptides_file
 sequence_weighting = args.sequence_weighting
@@ -23,10 +25,10 @@ sequence_weighting = args.sequence_weighting
 
 ### Data directories
 # data directory
-data_dir = "data/"
+data_dir = "/Users/kristinetoftjohansen/Desktop/Algo/BioAlgoProject2025/data/"
 
-# directory for constructed PSSM
-output_dir = "data/Outputs/Output_PSSM/Constructed_PSSM"
+# # directory for constructed PSSM
+# output_dir = "/Users/kristinetoftjohansen/Desktop/Algo/BioAlgoProject2025/data/Outputs/Output_PSSM/Constructed_PSSM"
 
 ### Define options for run
 # sequence_weighting = True
@@ -69,7 +71,7 @@ for i, letter_1 in enumerate(alphabet):
 # peptides_file = data_dir + "PSSM/A0201.small_lig"
 # peptides_file = data_dir + "PSSM/A0201.large_lig"
 
-peptides_file_path = data_dir + peptides_file
+peptides_file_path = peptides_file
 peptides = np.loadtxt(peptides_file_path, dtype=str).tolist() # load peptides from file
 
 

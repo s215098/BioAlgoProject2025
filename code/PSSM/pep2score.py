@@ -29,7 +29,7 @@ evaluation_file = args.peptides_file
 # ## DEFINE THE PATH TO YOUR COURSE DATA DIRECTORY
 
 # %%
-data_dir = "/Users/alberteenglund/Documents/DTU/8_Semester/22125_algorithms_in_bioinformatics/algorithms/BioAlgoProject2025/data/"
+data_dir = "/Users/kristinetoftjohansen/Desktop/Algo/BioAlgoProject2025/data/"
 
 # %% [markdown]
 # ## Initialize Matrix
