@@ -1,10 +1,10 @@
 #! /bin/bash -f
 
 ## Define path to your code directory
-RDIR="code"
+RDIR="../../../code"
 
 ## Define path you where you have placed the HLA data sets
-DDIR="data/AllFiles"
+DDIR="../../../data/AllFiles"
 
 # A0201 A0202 A1101 A3001 B0702 B1501 B5401
 # Here you can type your allele names
@@ -30,19 +30,19 @@ do
 # Do training
 if [ ! -f mat.$n ] 
 then
-	python "$RDIR/SMM/smm_gradient_descent.py" -l $l -t "$DDIR/$a/f00$n" -e "$DDIR/$a/c00$n" | grep -v "#" > mat.$n
+	python "$RDIR/SMM/smm_gradient_descent.py" -l $l -t "$DDIR/$a/f00$n" | grep -v "#" > mat.$n
 fi
 
 # Do evaluation
 if [ ! -f c00$n.pred ] 
 then
-	python "$RDIR/PSSM/pep2score.py" -mat mat.$n -f  "$DDIR/$a/c00$n" | grep -v "PCC:" > c00$n.pred
+	python "$RDIR/PSSM/pep2score.py" -mat mat.$n -f "$DDIR/$a/c00$n" | grep -v "PCC:" > c00$n.pred
 fi
 
 done
 
 # Do concatinated evaluation
-echo $a $l `cat c00{0..3}.pred | grep -v "#" | gawk '{print $2,$3}' | ../xycorr` \
+echo $a $l `cat c00{0..3}.pred | grep -v "#" | gawk '{print $2,$3}' | ../../../xycorr` \
 	   `cat c00{0..3}.pred | grep -v "#" | gawk '{print $2,$3}' | gawk 'BEGIN{n+0; e=0.0}{n++; e += ($1-$2)*($1-$2)}END{print e/n}' `
 
 cd ..
