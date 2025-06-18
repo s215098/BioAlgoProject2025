@@ -26,7 +26,7 @@ sequence_weighting = args.sequence_weighting
 data_dir = "data/"
 
 # directory for constructed PSSM
-output_dir = "data/Outputs/PSSM/Constructed_PSSM"
+output_dir = "data/Outputs/Output_PSSM/Constructed_PSSM"
 
 ### Define options for run
 # sequence_weighting = True
@@ -70,10 +70,11 @@ for i, letter_1 in enumerate(alphabet):
 # peptides_file = data_dir + "PSSM/A0201.large_lig"
 
 peptides_file_path = data_dir + peptides_file
-peptides = np.loadtxt(peptides_file_path, dtype=str).tolist()[] # load peptides from file
+peptides = np.loadtxt(peptides_file_path, dtype=str).tolist() # load peptides from file
 
-#obs, added extra [0] slicing as we have lists in li
+
 #saving the length of the peptides.
+#OBS! added extra [0] slicing to get the actual peptide sequences. Also further down the script.
 if len(peptides[0][0]) == 1:
     peptide_length = len(peptides)
     peptides = [peptides]
@@ -111,13 +112,11 @@ def initialize_matrix(peptide_length, alphabet):
 c_matrix = initialize_matrix(peptide_length, alphabet)
 
 for position in range(0, peptide_length):
-    print(position)
 
     #peptides[]
         
     for peptide in peptides:
         c_matrix[position][peptide[0][position]] += 1
-        # print(peptide[0][position])
 
 ### Sequence Weighting
 # w = 1 / r * s
@@ -144,7 +143,7 @@ for peptide in peptides:
                     
                     r += 1 #counting how many different amino acids there are in the column
 
-            s = c_matrix[position][peptide[position]] #number of occurrences of the amino acid in the column
+            s = c_matrix[position][peptide[0][position]] #number of occurrences of the amino acid in the column
 
             w += 1.0/(r * s) #calculating the weight for the peptide
 
@@ -159,12 +158,12 @@ for peptide in peptides:
         
         neff = len(peptides)
 
-    weights[peptide] = w
+    weights[peptide[0]] = w
 
-pprint( "W:")
-pprint( weights )
-pprint( "Nseq:")
-pprint( neff )
+# pprint( "W:")
+# pprint( weights )
+# pprint( "Nseq:")
+# pprint( neff )
 
 
 ### Observed Frequencies Matrix (f)
@@ -177,15 +176,15 @@ for position in range(0, peptide_length):
   
     for peptide in peptides:
     
-        f_matrix[position][peptide[position]] += weights[peptide] 
+        f_matrix[position][peptide[0][position]] += weights[peptide[0]] 
     
-        n += weights[peptide] #saving the sum of weights (corresponds to n) to normalize the frequencies later
+        n += weights[peptide[0]] #saving the sum of weights (corresponds to n) to normalize the frequencies later
         
     for letter in alphabet: 
         
         f_matrix[position][letter] = f_matrix[position][letter]/n
       
-pprint( f_matrix[0] )
+# pprint( f_matrix[0] )
 
 
 ### Pseudo Frequencies Matrix (g)
@@ -201,7 +200,7 @@ for position in range(0, peptide_length):
 
           g_matrix[position][letter_1] += f_matrix[position][letter_2] * blosum62[letter_1][letter_2]
 
-pprint(g_matrix[0]) #just printing the first row of the g_matrix
+# pprint(g_matrix[0]) #just printing the first row of the g_matrix
 
 
 ### Combined Frequencies Matrix (p)
@@ -215,7 +214,7 @@ for position in range(0, peptide_length):
     for a in alphabet:
         p_matrix[position][a] = (alpha * f_matrix[position][a] + beta * g_matrix[position][a]) / (alpha + beta)
 
-pprint(p_matrix[0]) #just printing the first position of the p_matrix
+# pprint(p_matrix[0]) #just printing the first position of the p_matrix
 
 
 ### Log Odds Weight Matrix (w)
@@ -230,7 +229,7 @@ for position in range(0, peptide_length):
         else:
             w_matrix[position][letter] = -999.9
 
-pprint(w_matrix[0])
+# pprint(w_matrix[0])
 
 ### Write Matrix to PSI-BLAST format
 def to_psi_blast(matrix):
@@ -287,8 +286,8 @@ to_psi_blast(w_matrix)
 
 ### convert w_matrix to PSI-BLAST format and print to file
 
-# Write out PSSM in Psi-Blast format to file
-to_psi_blast_file(w_matrix, file_name=output_dir)
+# # Write out PSSM in Psi-Blast format to file
+# to_psi_blast_file(w_matrix, file_name=output_dir)
 
 
 
