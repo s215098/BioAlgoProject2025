@@ -403,9 +403,10 @@ def to_psi_blast_file(matrix, file_name):
 # %%
 matrix = vector_to_matrix(weights, alphabet)
 to_psi_blast(matrix)
-
+#print(matrix)
+'''
 file_name = "code/SMM/data_SMM/SMM_PSSM_matrix"
 to_psi_blast_file(matrix, file_name)
-
+'''
 
 
