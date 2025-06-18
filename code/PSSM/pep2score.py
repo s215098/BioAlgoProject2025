@@ -22,14 +22,14 @@ parser = ArgumentParser(description="A Pep2score program")
 parser.add_argument("-mat", action="store", dest="mat", type=str, help="File with PSSM")
 parser.add_argument("-f", action="store", dest="peptides_file", type=str, help="File with peptides")
 args = parser.parse_args()
-mat = args.mat
-peptides_targets_file = args.peptides_file
+pssm_file = args.mat
+evaluation_file = args.peptides_file
 
 # %% [markdown]
 # ## DEFINE THE PATH TO YOUR COURSE DATA DIRECTORY
 
 # %%
-data_dir = "/Users/kristinetoftjohansen/Desktop/Algo/data/"
+data_dir = "data/"
 
 # %% [markdown]
 # ## Initialize Matrix
@@ -99,9 +99,9 @@ def score_peptide(peptide, matrix):
 # %%
 # Read evaluation data
 #evaluation_file = "https://raw.githubusercontent.com/brunoalvarez89/data/master/algorithms_in_bioinformatics/part_2/A0201.eval"
-evaluation_file = data_dir + "PSSM/A0201.eval"
+#evaluation_file = data_dir + "PSSM/A0201.eval"
 
-evaluation = np.loadtxt(evaluation_file, dtype=str).reshape(-1,2)
+evaluation = np.loadtxt(evaluation_file, dtype=str).reshape(-1,3)
 evaluation_peptides = evaluation[:, 0]
 evaluation_targets = evaluation[:, 1].astype(float)
 
@@ -110,7 +110,7 @@ evaluation_peptides, evaluation_targets
 peptide_length = len(evaluation_peptides[0])
 
 # Define which PSSM file to use (file save from pep2mat)
-pssm_file = "/Users/kristinetoftjohansen/Desktop/Algo/code/PSSM/w_matrix_test"
+#pssm_file = "/Users/kristinetoftjohansen/Desktop/Algo/code/PSSM/w_matrix_test"
 
 w_matrix = from_psi_blast(pssm_file)
 
@@ -118,13 +118,13 @@ evaluation_predictions = []
 for i in range(len(evaluation_peptides)):
     score = score_peptide(evaluation_peptides[i], w_matrix)
     evaluation_predictions.append(score)
-    print (evaluation_peptides[i], score, evaluation_targets[i])
+    #print (evaluation_peptides[i], score, evaluation_targets[i])
     
 pcc = pearsonr(evaluation_targets, evaluation_predictions)
 print("PCC: ", pcc[0])
 
 plt.scatter(evaluation_targets, evaluation_predictions);
-
+plt.show()
 
 # %%
 
