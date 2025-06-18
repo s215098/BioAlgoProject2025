@@ -29,7 +29,7 @@ evaluation_file = args.peptides_file
 # ## DEFINE THE PATH TO YOUR COURSE DATA DIRECTORY
 
 # %%
-data_dir = "data/"
+data_dir = "/Users/alberteenglund/Documents/DTU/8_Semester/22125_algorithms_in_bioinformatics/algorithms/BioAlgoProject2025/data/"
 
 # %% [markdown]
 # ## Initialize Matrix
@@ -118,13 +118,13 @@ evaluation_predictions = []
 for i in range(len(evaluation_peptides)):
     score = score_peptide(evaluation_peptides[i], w_matrix)
     evaluation_predictions.append(score)
-    #print (evaluation_peptides[i], score, evaluation_targets[i])
+    print (evaluation_peptides[i], score, evaluation_targets[i])
     
 pcc = pearsonr(evaluation_targets, evaluation_predictions)
-print("PCC: ", pcc[0])
+# print("PCC: ", pcc[0])
 
 plt.scatter(evaluation_targets, evaluation_predictions);
-plt.show()
+# plt.show()
 
 # %%
 

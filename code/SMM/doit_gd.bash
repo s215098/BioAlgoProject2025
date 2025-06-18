@@ -1,10 +1,10 @@
 #! /bin/bash -f
 
 ## Define path to your code directory
-RDIR="../../../code"
+RDIR="/Users/alberteenglund/Documents/DTU/8_Semester/22125_algorithms_in_bioinformatics/algorithms/BioAlgoProject2025/code"
 
 ## Define path you where you have placed the HLA data sets
-DDIR="../../../data/AllFiles"
+DDIR="/Users/alberteenglund/Documents/DTU/8_Semester/22125_algorithms_in_bioinformatics/algorithms/BioAlgoProject2025/data/AllFiles"
 
 # A0201 A0202 A1101 A3001 B0702 B1501 B5401
 # Here you can type your allele names

@@ -39,7 +39,7 @@ w_bound = args.w_bound
 
 # RUN: python code/SMM/smm_gradient_descent.py -t data/SMM/A0201_training
 # %%
-data_dir = "data/"
+data_dir = "/Users/alberteenglund/Documents/DTU/8_Semester/22125_algorithms_in_bioinformatics/algorithms/BioAlgoProject2025/data/"
 
 # %% [markdown]
 # ### Training Data
