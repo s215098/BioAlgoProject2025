@@ -1,91 +1,60 @@
-# %% [markdown]
-# ## Description
-#
-# Weight Matrix construction including pseudo counts and sequence weighting
-# 
-# Some parts of the code have been blanked out. Fill out these places to make the code run. 
+##########################################################################################
+####### Constructing Weight Matrix including pseudo counts and sequence weighting #######
+##########################################################################################
 
-# %% [markdown]
-# ## Python Imports
-
-# %%
+### Python Imports
 import numpy as np
 import math
 import copy
 from pprint import pprint
 from argparse import ArgumentParser
 
-# %matplotlib inline
 
-# %% [markdown]
-# ## DEFINE THE PATH TO YOUR COURSE DATA DIRECTORY
-
-# %%
-data_dir = "/Users/kristinetoftjohansen/Desktop/Algo/data/"
-
-
-# %%
 ### ARG PARSE
 parser = ArgumentParser(description="A Pep2mat program")
 parser.add_argument("-b", action="store", dest="beta", type=float, default=0, help="Beta value for the algorithm")
 parser.add_argument("-w", action="store_true", dest="sequence_weighting", help="Using sequence weighting")
-parser.add_argument("-f", action="store", dest="peptides_file", type=str, help="File with peptides")
+parser.add_argument("-f", action="store", dest="peptides_file", type=str, default = "A0101/A0101_bind.dat", help="File with peptides")
 args = parser.parse_args()
 beta = args.beta
-peptides_targets_file = args.peptides_file
+peptides_file = args.peptides_file
 sequence_weighting = args.sequence_weighting
 
 
-# %%
+### Data directories
+# data directory
+data_dir = "../../data/PSSM/"
 
+# directory for constructed PSSM
+output_dir = "../../data/Outputs/PSSM/Constructed_PSSM"
 
-# %% [markdown]
-# ## Define options for run
-
-# %%
-sequence_weighting = True
+### Define options for run
+# sequence_weighting = True
 # sequence_weighting = False
 # define weight on pseudo count
-beta = 50
+# beta = 50
 # beta = 0
 
 
-# %% [markdown]
-# ## Data Imports
-
-# %% [markdown]
-# ### Load Alphabet
-
-# %%
+### Loading alphabet
 alphabet_file = data_dir + "Matrices/alphabet"
-
 alphabet = np.loadtxt(alphabet_file, dtype=str)
 
-print (alphabet)
-print (len(alphabet))
 
-# %% [markdown]
-# ### Load Background Frequencies
-
-# %%
+### Load Background Frequencies
 bg_file = data_dir + "Matrices/bg.freq.fmt"
 _bg = np.loadtxt(bg_file, dtype=float)
-
 bg = {} #creates a dictionary for the background frequencies
+
 for i in range(0, len(alphabet)):
     bg[alphabet[i]] = _bg[i]
 
-bg
 
-# %% [markdown]
-# ### Load Blosum62 Matrix
-# 
-
-# %%
+### Load Blosum62 Matrix
 blosum62_file = data_dir + "Matrices/blosum62.freq_rownorm"
 _blosum62 = np.loadtxt(blosum62_file, dtype=float).T
-
 blosum62 = {} #creates a dictionary for the blosum62 matrix
+
 for i, letter_1 in enumerate(alphabet):
     
     blosum62[letter_1] = {}
@@ -94,17 +63,14 @@ for i, letter_1 in enumerate(alphabet):
         
         blosum62[letter_1][letter_2] = _blosum62[i, j]
 
-blosum62
 
-# %% [markdown]
-# ### Load Peptides
-
-# %%
+### Load Peptides
 # peptides_file = data_dir + "PSSM/A0201.single_lig"
-peptides_file = data_dir + "PSSM/A0201.small_lig"
-#peptides_file = data_dir + "PSSM/A0201.large_lig"
+# peptides_file = data_dir + "PSSM/A0201.small_lig"
+# peptides_file = data_dir + "PSSM/A0201.large_lig"
 
-peptides = np.loadtxt(peptides_file, dtype=str).tolist() # load peptides from file
+peptides_file_path = data_dir + peptides_file
+peptides = np.loadtxt(peptides_file_path, dtype=str).tolist() # load peptides from file
 
 #saving the length of the peptides.
 if len(peptides[0]) == 1:
@@ -117,13 +83,10 @@ else:
 for i in range(0, len(peptides)):
     if len(peptides[i]) != peptide_length:
         print("Error, peptides differ in length!")
-        
-# print(peptides)
 
-# %% [markdown]
-# ## Initialize Matrix
 
-# %%
+### Initialize Matrix
+
 #Function for initializing matrix.
 def initialize_matrix(peptide_length, alphabet):
 
@@ -142,10 +105,8 @@ def initialize_matrix(peptide_length, alphabet):
         
     return init_matrix
 
-# %% [markdown]
-# ## Amino Acid Count Matrix (c)
 
-# %%
+### Amino Acid Count Matrix (c)
 c_matrix = initialize_matrix(peptide_length, alphabet)
 
 for position in range(0, peptide_length):
@@ -154,22 +115,11 @@ for position in range(0, peptide_length):
         
         c_matrix[position][peptide[position]] += 1
 
-        
-pprint(c_matrix[0]) # looking at the counts for position 0.
-
-
-# %%
-
-
-# %% [markdown]
-# ## Sequence Weighting
-
-# %%
+### Sequence Weighting
 # w = 1 / r * s
 # where 
 # r = number of different amino acids in column
 # s = number of occurrence of amino acid in column
-
 weights = {}
 
 for peptide in peptides:
@@ -203,8 +153,7 @@ for peptide in peptides:
         
         w = 1  
         
-        neff = len(peptides)  
-      
+        neff = len(peptides)
 
     weights[peptide] = w
 
@@ -213,10 +162,9 @@ pprint( weights )
 pprint( "Nseq:")
 pprint( neff )
 
-# %% [markdown]
-# ## Observed Frequencies Matrix (f)
 
-# %%
+### Observed Frequencies Matrix (f)
+
 f_matrix = initialize_matrix(peptide_length, alphabet) #initialize zero matrix for frequencies
 
 for position in range(0, peptide_length):
@@ -235,12 +183,11 @@ for position in range(0, peptide_length):
       
 pprint( f_matrix[0] )
 
-# %% [markdown]
-# ## Pseudo Frequencies Matrix (g)
-# 
+
+### Pseudo Frequencies Matrix (g)
+
 # Remember g(b) = sum f(a)* q(b|a), and blosum[a,b] = q(a|b)
 
-# %%
 g_matrix = initialize_matrix(peptide_length, alphabet)
 
 for position in range(0, peptide_length):
@@ -252,10 +199,9 @@ for position in range(0, peptide_length):
 
 pprint(g_matrix[0]) #just printing the first row of the g_matrix
 
-# %% [markdown]
-# ## Combined Frequencies Matrix (p)
 
-# %%
+### Combined Frequencies Matrix (p)
+
 p_matrix = initialize_matrix(peptide_length, alphabet)
 
 alpha = neff - 1 # alpha is the number of different amino acids minus one
@@ -267,10 +213,9 @@ for position in range(0, peptide_length):
 
 pprint(p_matrix[0]) #just printing the first position of the p_matrix
 
-# %% [markdown]
-# ## Log Odds Weight Matrix (w)
 
-# %%
+### Log Odds Weight Matrix (w)
+
 w_matrix = initialize_matrix(peptide_length, alphabet)
 
 for position in range(0, peptide_length):
@@ -283,10 +228,7 @@ for position in range(0, peptide_length):
 
 pprint(w_matrix[0])
 
-# %% [markdown]
-# ### Write Matrix to PSI-BLAST format
-
-# %%
+### Write Matrix to PSI-BLAST format
 def to_psi_blast(matrix):
 
     header = ["", "A", "R", "N", "D", "C", "Q", "E", "G", "H", "I", "L", "K", "M", "F", "P", "S", "T", "W", "Y", "V"]
@@ -309,10 +251,8 @@ def to_psi_blast(matrix):
 
         print('{:>4} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8}'.format(*scores)) 
 
-# %% [markdown]
-# ### convert w_matrix to PSI-BLAST format and print to file
+### convert w_matrix to PSI-BLAST format and print to file
 
-# %%
 def to_psi_blast_file(matrix, file_name):
     
     with open(file_name, 'w') as file:
@@ -337,24 +277,19 @@ def to_psi_blast_file(matrix, file_name):
 
             file.write('{:>4} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8}\n'.format(*scores)) 
 
-# %% [markdown]
-# ### convert  w_matrix to PSI-BLAST format
 
-# %%
+### convert  w_matrix to PSI-BLAST format
 to_psi_blast(w_matrix)
 
-# %% [markdown]
-# ### convert w_matrix to PSI-BLAST format and print to file
+### convert w_matrix to PSI-BLAST format and print to file
 
-# %%
 # Write out PSSM in Psi-Blast format to file
-file_name = "w_matrix_test"
-to_psi_blast_file(w_matrix, file_name=file_name)
+to_psi_blast_file(w_matrix, file_name=output_dir)
 
-# %% [markdown]
-# ## Evaluation
 
-# %%
+
+### Evaluation Udkommenteret fordi pep2score klarer det?
+
 # #evaluation_file = "https://raw.githubusercontent.com/brunoalvarez89/data/master/algorithms_in_bioinformatics/part_2/A0201.eval"
 # evaluation_file = data_dir + "PSSM/A0201.eval"
 # #evaluation_file = evaluation_upload.values()
