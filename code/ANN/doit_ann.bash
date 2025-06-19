@@ -1,14 +1,14 @@
 #! /bin/bash -f
 
 ## Define path to your code directory
-RDIR="/Users/alberteenglund/Documents/DTU/8_Semester/22125_algorithms_in_bioinformatics/algorithms/BioAlgoProject2025/code"
+RDIR="/Users/mathildedue/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/master_bioinformatics/1.semester/22125_algorithms_in_bioinformatics/BioAlgoProject2025/code"
 
 ## Define path you where you have placed the HLA data sets
-DDIR="/Users/alberteenglund/Documents/DTU/8_Semester/22125_algorithms_in_bioinformatics/algorithms/BioAlgoProject2025/data/all_files_new"
+DDIR="/Users/mathildedue/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/master_bioinformatics/1.semester/22125_algorithms_in_bioinformatics/BioAlgoProject2025/data/all_files_new"
 
 # A0201 A0202 A1101 A3001 B0702 B1501 B5401
 # Here you can type your allele names
-for a in B5701
+for a in A3001 B1501 B5401
 do
 
 rm -rf $a.res
