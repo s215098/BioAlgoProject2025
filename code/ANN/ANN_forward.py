@@ -295,11 +295,11 @@ for i in range(0, len(x_eval)):
 eval_perf = pearsonr(y_eval, np.asarray(y_preds_eval))[0]
 
 # PERFORMANCE REPORT
-fig = plt.figure(figsize=(5, 5), dpi = 70)
+# fig = plt.figure(figsize=(5, 5), dpi = 70)
 
-plt.scatter(y_preds_eval, y_eval)
-plt.ylabel("Target Value", fontsize=10);
-plt.xlabel("Prediction Value", fontsize=10);
+# plt.scatter(y_preds_eval, y_eval)
+# plt.ylabel("Target Value", fontsize=10);
+# plt.xlabel("Prediction Value", fontsize=10);
 
 # print performance
 print("# Prediction PCC:", round(eval_perf, 4))
