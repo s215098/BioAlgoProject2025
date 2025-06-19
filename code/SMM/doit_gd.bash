@@ -10,9 +10,9 @@ rm -rf gradient_decent
 mkdir -p gradient_decent
 cd gradient_decent
 
-# A0201 A0202 A1101 A3001 B0702 B1501 B5401
+# A0201 A0202 A1101 A3001 B0702 B1501 B5401 B5701
 # Here you can type your allele names
-for a in B5701
+for a in A0201 A0202 A1101 A3001 B0702 B1501 B5401 B5701
 do
 
 mkdir -p $a.res
@@ -34,14 +34,14 @@ do
 # Do training
 if [ ! -f mat.$n ] 
 then
-	python "$RDIR/SMM/smm_gradient_descent.py" -l $l -t "$DDIR/$a/f00$n" | grep -v "#" > mat.$n
+	python "$RDIR/SMM/smm_gradient_descent.py" -l $l -t "$DDIR/$a/f00$n".csv | grep -v "#" > mat.$n
 fi
 
 # Do test
 if [ ! -f c00$n.pred ]
 then
 	#python "$RDIR/PSSM/pep2score.py" -mat mat.$n -f "$DDIR/$a/c00$n" | grep -v "PCC:" > c00$n.pred
-	python "$RDIR/PSSM/pep2score.py" -mat mat.$n -f "$DDIR/$a/c00$n" | tee >(grep "PCC:" > c00$n.pcc) | grep -v "PCC:" > c00$n.pred
+	python "$RDIR/PSSM/pep2score.py" -mat mat.$n -f "$DDIR/$a/c00$n".csv | tee >(grep "PCC:" > c00$n.pcc) | grep -v "PCC:" > c00$n.pred
 fi
 
 done
