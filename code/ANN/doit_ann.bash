@@ -20,9 +20,9 @@ cd $a.res
 for sc in blosum sparse
 do
 
-mkdir -p scheme.$sc
+mkdir -p $sc
 
-cd scheme.$sc
+cd $sc
 
 # Loop over the 4 cross validation configurations
 for n in 0 1 2 3
@@ -32,6 +32,12 @@ do
 if [ ! -f $a-$sc-$n.syn ] 
 then
 	python "$RDIR/ANN/ANN_train.py" -sc $sc -t "$DDIR/$a/f00$n" -e "$DDIR/$a/c00$n" -syn $a-$sc-$n.syn -stop | tee train.log.$n
+fi
+
+# Do evaluation
+if [ ! -f c00$n.pred ] 
+then
+	python "$RDIR/ANN/ANN_forward.py" -e "$DDIR/$a/c00$n" -syn $a-$sc-$n.syn | tee >(grep "PCC:" > c00$n.pcc) | grep -v "PCC:" > c00$n.pred
 fi
 
 done
