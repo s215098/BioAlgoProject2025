@@ -41,7 +41,7 @@ hidden_layer_dim = args.hidden_layer_dim
 # ## DEFINE THE PATH TO YOUR COURSE DIRECTORY
 
 # %%
-data_dir = "/Users/alberteenglund/Documents/DTU/8_Semester/22125_algorithms_in_bioinformatics/algorithms/BioAlgoProject2025/data/"
+data_dir = "/Users/mathildedue/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/master_bioinformatics/1.semester/22125_algorithms_in_bioinformatics/BioAlgoProject2025/data/"
 
 # %% [markdown]
 # ### Define run time parameters
