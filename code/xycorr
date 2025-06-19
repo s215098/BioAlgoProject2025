@@ -22,5 +22,5 @@ gawk '{
                 c = t/sqrt(nx*ny);
         }
          
-        printf( "Pearson coefficient for N= %i data: %8.5f\n", n, c );
+        printf( "N= %i PCC: %8.5f\n", n, c );
 }'
