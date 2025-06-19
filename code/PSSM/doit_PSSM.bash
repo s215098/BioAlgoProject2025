@@ -51,7 +51,7 @@ done
 # Print allele, lambda, followed by:
 # - calculated correlation between predicted and actual values (by xycorr)
 # - MSE (Mean Squared Error) over all predictions.
-echo $a $l `cat c00{0..3}.pred | grep -v "#" | gawk '{print $2,$3}' | /Users/kristinetoftjohansen/Desktop/Algo/BioAlgoProject2025/code/xycorr` \
+echo $a $beta `cat c00{0..3}.pred | grep -v "#" | gawk '{print $2,$3}' | /Users/kristinetoftjohansen/Desktop/Algo/BioAlgoProject2025/code/xycorr` \
 	   `cat c00{0..3}.pred | grep -v "#" | gawk '{print $2,$3}' | gawk 'BEGIN{n+0; e=0.0}{n++; e += ($1-$2)*($1-$2)}END{print "MSE:", e/n}' ` >> ../summary.txt
 
 cd ..
