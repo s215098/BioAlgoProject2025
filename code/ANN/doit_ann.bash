@@ -8,7 +8,7 @@ DDIR="/Users/alberteenglund/Documents/DTU/8_Semester/22125_algorithms_in_bioinfo
 
 # A0201 A0202 A1101 A3001 B0702 B1501 B5401
 # Here you can type your allele names
-for a in B5701
+for a in A0201 A1101 B0702
 do
 
 rm -rf $a.res

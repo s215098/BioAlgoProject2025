@@ -28,7 +28,7 @@ scheme = args.scheme
 # ### DEFINE THE PATH TO YOUR COURSE DIRECTORY
 
 # %%
-data_dir = "/Users/alberteenglund/Documents/DTU/8_Semester/22125_algorithms_in_bioinformatics/algorithms/data/"
+data_dir = "/Users/alberteenglund/Documents/DTU/8_Semester/22125_algorithms_in_bioinformatics/algorithms/BioAlgoProject2025/data/"
 
 # %% [markdown]
 # ### define run time parameters
