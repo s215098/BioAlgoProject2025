@@ -1,48 +1,46 @@
 #! /bin/bash -f
 
 ## Define path to your code directory
-RDIR="ANN_forward_clean.py"
+RDIR="/Users/alberteenglund/Documents/DTU/8_Semester/22125_algorithms_in_bioinformatics/algorithms/BioAlgoProject2025/code"
 
 ## Define path you where you have placed the HLA data sets
-DDIR="../../data/AllFiles"
+DDIR="/Users/alberteenglund/Documents/DTU/8_Semester/22125_algorithms_in_bioinformatics/algorithms/BioAlgoProject2025/data/AllFiles"
 
+# A0201 A0202 A1101 A3001 B0702 B1501 B5401
 # Here you can type your allele names
-for a in A0201 B0801 B5701 
+for a in A0101
 do
 
+rm -rf $a.res
 mkdir -p $a.res
 
 cd $a.res
 
-# Here you can type the lambdas to test
-for l in 0 0.02 0.05 0.1
+# Here you can type the encoding to test
+for sc in blosum sparse
 do
 
-mkdir -p l.$l
+mkdir -p scheme.$sc
 
-cd l.$l
+cd scheme.$sc
 
-# Loop over the 5 cross validation configurations
-for n in 0 1 2 3 4 
+# Loop over the 4 cross validation configurations
+for n in 0 1 2 3
 do
 
 # Do training
-if [ ! -f mat.$n ] 
+if [ ! -f $a-$sc-$n.syn ] 
 then
-	python $RDIR/SMM/smm_gradient_descent.py -l $l -t $DDIR/$a/f00$n -e $DDIR/$a/c00$n | grep -v "#" > mat.$n
-fi
-
-# Do evaluation
-if [ ! -f c00$n.pred ] 
-then
-	python $RDIR/PSSM/pep2score.py -mat mat.$n -f  $DDIR/$a/c00$n | grep -v "PCC:" > c00$n.pred
+	python "$RDIR/ANN/ANN_train.py" -sc $sc -t "$DDIR/$a/f00$n" -e "$DDIR/$a/c00$n" -syn $a-$sc-$n.syn -stop | tee train.log.$n
 fi
 
 done
 
 # Do concatinated evaluation
-echo $a $l `cat c00{0..4}.pred | grep -v "#" | gawk '{print $2,$3}' | ../../xycorr` \
-	   `cat c00{0..4}.pred | grep -v "#" | gawk '{print $2,$3}' | gawk 'BEGIN{n+0; e=0.0}{n++; e += ($1-$2)*($1-$2)}END{print e/n}' `
+# Concat and summarize PCCs for this scheme
+# echo "Summary for $a scheme=$sc" >> ../../summary.txt
+# cat c00{0..3}.out >> ../../summary.txt
+# echo "" >> ../../summary.txt
 
 cd ..
 
