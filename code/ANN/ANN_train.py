@@ -20,7 +20,7 @@ parser.add_argument("-epi", action="store", dest="epsilon", type=float, default=
 parser.add_argument("-s", action="store", dest="seed", type=int, default=1, help="Seed for random numbers (default 1)")
 parser.add_argument("-i", action="store", dest="epochs", type=int, default=100, help="Number of epochs to train (default 100)")
 parser.add_argument("-syn", action="store", dest="synfile_name", type=str, help="Name of synaps file")
-parser.add_argument("-bl", action="store_true", dest="blosum_scheme", default=False, help="Use Blosum encoding (default: False)")
+parser.add_argument("-sc", action="store", dest="scheme", type=str, default="sparse", help="Set encoding scheme (default: sparse)")
 parser.add_argument("-stop", action="store_true", dest="early_stopping", default=False, help="Use Early stopping (default: False)")
 parser.add_argument("-nh", action="store", dest="hidden_layer_dim", type=int, default=5, help="Number of hidden neurons (default: 5)")
 args = parser.parse_args()
@@ -30,7 +30,7 @@ epsilon = args.epsilon
 seed = args.seed
 epochs = args.epochs
 synfile_name = args.synfile_name
-blosum_scheme = args.blosum_scheme
+scheme = args.scheme
 early_stopping = args.early_stopping
 hidden_layer_dim = args.hidden_layer_dim
 
@@ -337,9 +337,9 @@ training_data = np.loadtxt(training_file, dtype=str)
 
 peptides = training_data[:, 0]
 
-if blosum_scheme:
+if scheme == "blosum":
     x_train = encode(peptides, blosum50, alphabet)
-else:
+elif scheme == "sparse":
     x_train = encode(peptides, sparse, alphabet)
 
 y_train = np.array(training_data[:, 1], dtype=float)
@@ -353,9 +353,9 @@ y_train = np.array(training_data[:, 1], dtype=float)
 evaluation_data = np.loadtxt(evaluation_file, dtype=str)
 
 peptides = evaluation_data[:, 0]
-if blosum_scheme:
+if scheme == "blosum":
     x_eval = encode(peptides, blosum50, alphabet)
-else:
+elif scheme == "sparse":
     x_eval = encode(peptides, sparse, alphabet)
 
 y_eval = np.array(evaluation_data[:, 1], dtype=float)
