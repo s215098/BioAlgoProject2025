@@ -369,7 +369,7 @@ np.random.seed(seed)
 
 # create network
 input_layer_dim = 180
-hidden_layer_dim = 5
+# hidden_layer_dim = 5
 output_layer_dim = 1
 
 w_h, w_o, X = feed_forward_network(input_layer_dim, hidden_layer_dim, output_layer_dim)
