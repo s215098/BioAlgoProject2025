@@ -24,20 +24,35 @@ mkdir -p $sc
 
 cd $sc
 
+for i in 50 100 200
+do
+mkdir -p epocs.$i
+cd epocs.$i
+
+for nh in 3 5 10 15
+do 
+mkdir -p hidden.$nh
+cd hidden.$nh
+
+for epi in 0.001 0.01 0.05 0.1
+do
+mkdir -p epi.$epi
+cd epi.$epi
+
 # Loop over the 4 cross validation configurations
-for n in 0 1 2 3
+for n in 1 2 3 4
 do
 
 # Do training
-if [ ! -f $a-$sc-$n.syn ] 
+if [ ! -f $a-$sc-$i-$nh-$epi-$n.syn ] 
 then
-	python "$RDIR/ANN/ANN_train.py" -sc $sc -t "$DDIR/$a/f00$n" -e "$DDIR/$a/c00$n" -syn $a-$sc-$n.syn -stop | tee train.log.$n
+	python "$RDIR/ANN/ANN_train.py" -sc $sc -t "$DDIR/$a/f00$n" -e "$DDIR/$a/c00$n" -syn $a-$sc-$i-$nh-$epi-$n.syn -stop | tee train.log.$n
 fi
 
 # Do evaluation
 if [ ! -f c00$n.pred ] 
 then
-	python "$RDIR/ANN/ANN_forward.py" -sc $sc -e "$DDIR/$a/c00$n" -syn $a-$sc-$n.syn  | tee >(grep "PCC:" > c00$n.pcc) | grep -v "PCC:" > c00$n.pred
+	python "$RDIR/ANN/ANN_forward.py" -sc $sc -e "$DDIR/$a/c00$n" -syn $a-$sc-$i-$nh-$epi-$n.syn  | tee >(grep "PCC:" > c00$n.pcc) | grep -v "PCC:" > c00$n.pred
 fi
 
 done
