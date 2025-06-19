@@ -15,11 +15,11 @@ from argparse import ArgumentParser
 parser = ArgumentParser(description="Predicting with Forward Neural Networks")
 parser.add_argument("-e", action="store", dest="evaluation_file", type=str, help="File with evaluation data")
 parser.add_argument("-syn", action="store", dest="synfile_name", type=str, help="Name of synaps file")
-parser.add_argument("-bl", action="store_true", dest="blosum_scheme", default=False, help="Use Blosum encoding")
+parser.add_argument("-sc", action="store", dest="scheme", type=str, default="sparse", help="Set encoding scheme (default: sparse)")
 args = parser.parse_args()
 evaluation_file = args.evaluation_file
 synfile_name = args.synfile_name
-blosum_scheme = args.blosum_scheme
+scheme = args.scheme
 
 # %% [markdown]
 # ## Data Imports
@@ -167,9 +167,9 @@ def forward(X, w1, w2):
 evaluation_data = np.loadtxt(evaluation_file, dtype=str)
 
 peptides = evaluation_data[:, 0]
-if blosum_scheme:
+if scheme == "blosum":
     x_eval = encode(peptides, blosum50, alphabet)
-else:
+elif scheme == "sparse":
     x_eval = encode(peptides, sparse, alphabet)
 
 y_eval = np.array(evaluation_data[:, 1], dtype=float)
@@ -287,7 +287,7 @@ for i in range(0, len(x_eval)):
         
         y_preds_eval.append(y_pred)
         
-        print(peptides[i], y, y_pred)
+        print(peptides[i], y_pred, y)
     else:
         print("Error. Peptide length", len(x),"does not match network sizs", input_layer_dim, "Skip")
 
