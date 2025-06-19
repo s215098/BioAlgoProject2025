@@ -37,16 +37,14 @@ fi
 # Do evaluation
 if [ ! -f c00$n.pred ] 
 then
-	python "$RDIR/ANN/ANN_forward.py" -e "$DDIR/$a/c00$n" -syn $a-$sc-$n.syn | tee >(grep "PCC:" > c00$n.pcc) | grep -v "PCC:" > c00$n.pred
+	python "$RDIR/ANN/ANN_forward.py" -sc $sc -e "$DDIR/$a/c00$n" -syn $a-$sc-$n.syn  | tee >(grep "PCC:" > c00$n.pcc) | grep -v "PCC:" > c00$n.pred
 fi
 
 done
 
 # Do concatinated evaluation
-# Concat and summarize PCCs for this scheme
-# echo "Summary for $a scheme=$sc" >> ../../summary.txt
-# cat c00{0..3}.out >> ../../summary.txt
-# echo "" >> ../../summary.txt
+echo $a $sc `cat c00{0..3}.pred | grep -v "#" | gawk '{print $2,$3}' | ../../../xycorr` \
+	   `cat c00{0..3}.pred | grep -v "#" | gawk '{print $2,$3}' | gawk 'BEGIN{n+0; e=0.0}{n++; e += ($1-$2)*($1-$2)}END{print "MSE:", e/n}' ` >> ../summary.txt
 
 cd ..
 
