@@ -39,7 +39,9 @@ w_bound = args.w_bound
 
 # RUN: python code/SMM/smm_gradient_descent.py -t data/SMM/A0201_training
 # %%
-data_dir = "/mnt/c/Users/nicol/OneDrive - Danmarks Tekniske Universitet/Algorithms in bioinformatics F25/BioAlgoProject2025/data/"
+#data_dir = "/mnt/c/Users/nicol/OneDrive - Danmarks Tekniske Universitet/Algorithms in bioinformatics F25/BioAlgoProject2025/data/"
+data_dir="/Users/mathildedue/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/master_bioinformatics/1.semester/22125_algorithms_in_bioinformatics/BioAlgoProject2025/data/"
+
 
 # %% [markdown]
 # ### Training Data
@@ -184,6 +186,8 @@ def gradient_descent(y_pred, y_target, peptide, weights, lamb_N, epsilon):
 # ## Main Loop
 # 
 # 
+from time import time
+t0 = time()
 
 # %%
 # Random seed 
@@ -256,6 +260,9 @@ for e in range(0, epochs):
 
         # gradient descent 
         gradient_descent(y_pred, y_target, peptide, weights, lamb_N, epsilon)
+t1 = time()
+print("#Time for training:", round(t1 - t0, 2), "seconds")
+
 '''
     # compute error
     gerr, mse = cumulative_error(peptides, y, lamb, weights) 
@@ -400,13 +407,16 @@ def to_psi_blast_file(matrix, file_name):
 # %% [markdown]
 # ### Print
 
+t2 = time()
 # %%
 matrix = vector_to_matrix(weights, alphabet)
 to_psi_blast(matrix)
-#print(matrix)
+t3 = time()
+print("#Time for printing PSSM matrix:", round(t3 - t2, 2), "seconds")
+print("#Time total for training and printing PSSM matrix:", round(t3-t2+t1-t0, 2), "seconds")
+
 '''
+#print(matrix)
 file_name = "code/SMM/data_SMM/SMM_PSSM_matrix"
 to_psi_blast_file(matrix, file_name)
 '''
-
-

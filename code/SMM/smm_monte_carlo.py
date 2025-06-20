@@ -43,7 +43,9 @@ T_steps = args.T_STEPS
 # ## DEFINE THE PATH TO YOUR COURSE DIRECTORY
 
 # %%
-data_dir = "/mnt/c/Users/nicol/OneDrive - Danmarks Tekniske Universitet/Algorithms in bioinformatics F25/BioAlgoProject2025/data/"
+#data_dir = "/mnt/c/Users/nicol/OneDrive - Danmarks Tekniske Universitet/Algorithms in bioinformatics F25/BioAlgoProject2025/data/"
+data_dir="/Users/mathildedue/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/master_bioinformatics/1.semester/22125_algorithms_in_bioinformatics/BioAlgoProject2025/data/"
+
 
 # %% [markdown]
 # ## Define run time parameters
@@ -191,6 +193,8 @@ def cal_mse(vec1, vec2):
 # %% [markdown]
 # ## Main Loop
 
+from time import time
+t0 = time()
 # %%
 # Random seed
 np.random.seed(seed)
@@ -317,6 +321,8 @@ for t in T:
         '''
     #print ("t:", t, gerror_new, perturbation_value, train_mse, train_pcc, eval_mse, eval_pcc)
 
+t1 = time()
+print("#Time to train MC: ", round(t1 - t0,2), " seconds")
 # %% [markdown]
 # ## Error Plot
 '''
@@ -413,11 +419,13 @@ def to_psi_blast(matrix):
 
 # %% [markdown]
 # ### Print
-
+t2 = time()
 # %%
 matrix = vector_to_matrix(weights, alphabet)
 to_psi_blast(matrix)
-
+t3 = time()
+print("#Time to print PSSM: ", round(t3 - t2,2), " seconds")    
+print("#Time total to run SMM Monte Carlo: ", round(t3 - t2+t1-t0,2), " seconds")
 # %% [markdown]
 # ## Performance Evaluation
 '''
