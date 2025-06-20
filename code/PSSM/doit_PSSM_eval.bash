@@ -12,8 +12,8 @@ for a in A0201 A0202 A1101 A3001 B0702 B1501 B5401 B5701
 do
 
 # Create and move into a results directory for each allele.
-rm -rf $a.res # remove the previous created result files
-mkdir -p $a.res #-p is just mkdir options that ensures it is done "safely"
+# rm -rf $a.res # remove the previous created result files
+# mkdir -p $a.res #-p is just mkdir options that ensures it is done "safely"
 cd $a.res
 
 # Here you can type the to test
@@ -21,7 +21,7 @@ for beta in 0 0.25 0.5 1.0 5.0 10 50 75 100 #defining hyperparameters (beta for 
 do
 
 # Create and move into a subdirectory for each hyperparameter value.
-mkdir -p b.$beta
+#mkdir -p b.$beta
 cd b.$beta
 
 # Loop over the 5 cross validation configurations
@@ -37,12 +37,12 @@ do
 # fi
 
 # Do evaluation
-if [ ! -f c00$n.pred ] #if c00$n.pred file does not exist.
+if [ ! -f c00$n.eval ] #if c00$n.pred file does not exist.
 then
 	# Use the learned matrix to score peptides from the test set.
     # Save predictions to c00n.pred (ignore lines starting with "PCC:").
 	# python $RDIR/PSSM/pep2score.py -mat mat.$n -f  $DDIR/$a/c00$n | grep -v "PCC:" > c00$n.pred
-	python $RDIR/PSSM/pep2score.py -mat mat.$n -f  $DDIR/$a/c00$n.csv | tee >(grep "PCC:" > c00$n.pcc) | grep -v "PCC:" > c00$n.pred
+	python $RDIR/PSSM/pep2score.py -mat mat.$n -f  $DDIR/$a/e000.csv | tee >(grep "PCC:" > e00$n.pcc) | grep -v "PCC:" > e00$n.eval
 fi
 
 done
@@ -51,8 +51,8 @@ done
 # Print allele, lambda, followed by:
 # - calculated correlation between predicted and actual values (by xycorr)
 # - MSE (Mean Squared Error) over all predictions.
-echo $a $beta `cat c00{1..4}.pred | grep -v "#" | gawk '{print $2,$3}' | /Users/kristinetoftjohansen/Desktop/Algo/BioAlgoProject2025/code/xycorr` \
-	   `cat c00{1..4}.pred | grep -v "#" | gawk '{print $2,$3}' | gawk 'BEGIN{n+0; e=0.0}{n++; e += ($1-$2)*($1-$2)}END{print "MSE:", e/n}' ` >> ../summary.txt
+echo $a $beta `cat e00{1..4}.eval | grep -v "#" | gawk '{print $2,$3}' | /Users/kristinetoftjohansen/Desktop/Algo/BioAlgoProject2025/code/xycorr` \
+	   `cat e00{1..4}.eval | grep -v "#" | gawk '{print $2,$3}' | gawk 'BEGIN{n+0; e=0.0}{n++; e += ($1-$2)*($1-$2)}END{print "MSE:", e/n}' ` >> ../summary_eval.txt
 
 cd ..
 
