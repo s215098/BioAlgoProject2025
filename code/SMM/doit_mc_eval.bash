@@ -59,6 +59,8 @@ fi
 
 done
 
+cat e00{1..4}.eval | grep -v "#" > concat.eval
+
 # Do concatinated evaluation
 echo $a $l $t_steps `cat e00{1..4}.eval | grep -v "#" | gawk '{print $2,$3}' | "$RDIR/xycorr"` \
 	   `cat e00{1..4}.eval | grep -v "#" | gawk '{print $2,$3}' | gawk 'BEGIN{n+0; e=0.0}{n++; e += ($1-$2)*($1-$2)}END{print "MSE:", e/n}' ` >> ../summary_eval.txt

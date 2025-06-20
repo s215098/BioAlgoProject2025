@@ -60,6 +60,8 @@ fi
 
 done
 
+cat e00{1..4}.eval | grep -v "#" > concat.eval
+
 # Do concatenated evaluation over all 5 folds
 # Print allele, lambda, followed by:
 # - calculated correlation between predicted and actual values (by xycorr)
