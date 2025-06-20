@@ -1,0 +1,2 @@
+B5701 blosum Hidden neurons: 5 Epsilon: 0.05 N= 48 PCC: 0.68606 MSE: 0.0341508
+B5701 blosum Hidden neurons: 5 Epsilon: 0.1 N= 48 PCC: 0.79104 MSE: 0.0217857

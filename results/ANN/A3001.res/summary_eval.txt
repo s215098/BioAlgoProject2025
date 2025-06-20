@@ -1,0 +1,2 @@
+A3001 blosum Hidden neurons: 5 Epsilon: 0.05 N= 536 PCC: 0.68122 MSE: 0.0195723
+A3001 blosum Hidden neurons: 5 Epsilon: 0.1 N= 536 PCC: 0.69014 MSE: 0.0196946

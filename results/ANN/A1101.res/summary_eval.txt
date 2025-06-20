@@ -1,0 +1,2 @@
+A1101 blosum Hidden neurons: 5 Epsilon: 0.05 N= 1588 PCC: 0.83730 MSE: 0.0255489
+A1101 blosum Hidden neurons: 5 Epsilon: 0.1 N= 1588 PCC: 0.83691 MSE: 0.0256609
