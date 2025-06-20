@@ -25,7 +25,9 @@ sequence_weighting = args.sequence_weighting
 
 ### Data directories
 # data directory
-data_dir = "/Users/kristinetoftjohansen/Desktop/Algo/BioAlgoProject2025/data/"
+#data_dir = "/Users/kristinetoftjohansen/Desktop/Algo/BioAlgoProject2025/data/"
+data_dir="/Users/mathildedue/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/master_bioinformatics/1.semester/22125_algorithms_in_bioinformatics/BioAlgoProject2025/data/"
+
 
 # # directory for constructed PSSM
 # output_dir = "/Users/kristinetoftjohansen/Desktop/Algo/BioAlgoProject2025/data/Outputs/Output_PSSM/Constructed_PSSM"
@@ -109,7 +111,8 @@ def initialize_matrix(peptide_length, alphabet):
         
     return init_matrix
 
-
+from time import time
+t0 = time()
 ### Amino Acid Count Matrix (c)
 c_matrix = initialize_matrix(peptide_length, alphabet)
 
@@ -126,6 +129,7 @@ for position in range(0, peptide_length):
 # r = number of different amino acids in column
 # s = number of occurrence of amino acid in column
 weights = {}
+
 
 for peptide in peptides:
 
@@ -232,7 +236,8 @@ for position in range(0, peptide_length):
             w_matrix[position][letter] = -999.9
 
 # pprint(w_matrix[0])
-
+t1 = time()
+print("#Time taken to construct PSSM: ", round(t1-t0, 2), " seconds")
 ### Write Matrix to PSI-BLAST format
 def to_psi_blast(matrix):
 
@@ -282,10 +287,12 @@ def to_psi_blast_file(matrix, file_name):
 
             file.write('{:>4} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8} {:>8}\n'.format(*scores)) 
 
-
+t2 = time()
 ### convert  w_matrix to PSI-BLAST format
 to_psi_blast(w_matrix)
-
+t3 = time()
+print("#Time taken to print PSSM in PSI-BLAST format: ", round(t3-t2, 2), " seconds")
+print("#Time taken to construct and print PSSM: ", round(t3-t2+t1-t0, 2), " seconds")
 ### convert w_matrix to PSI-BLAST format and print to file
 
 # # Write out PSSM in Psi-Blast format to file
