@@ -401,6 +401,8 @@ best_error = np.inf
 #############
 # MAIN LOOP #
 #############
+from time import time
+t0 = time()
 
 # for each epoch
 for e in range(0, epochs):
@@ -505,6 +507,8 @@ for e in range(0, epochs):
           "Eval Error:", round(mean_eval_error, 4), "|", \
           "Eval Perf:", round(eval_pcc, 4))
          
+t1 = time()
+print("Training time:", round(t1-t0, 2), "seconds")
 
 # %% [markdown]
 # ### Performance Report
