@@ -15,7 +15,6 @@ cd monte_carlo
 for a in A0201 A0202 A1101 A3001 B0702 B1501 B5401 B5701
 do
 
-
 mkdir -p $a.res
 
 #cd $a.res
@@ -46,7 +45,7 @@ fi
 # Do test
 if [ ! -f c00$n.pred ] 
 then
-	python "$RDIR/PSSM/pep2score.py" -mat mat.$n -f  "$DDIR/$a/c00$n".csv | grep -v "PCC:" > c00$n.pred
+	python "$RDIR/PSSM/pep2score.py" -mat mat.$n -f  "$DDIR/$a/c00$n".csv | tee >(grep "PCC:" > c00$n.pcc) | grep -v "PCC:" > c00$n.pred
 fi
 
 done

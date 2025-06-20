@@ -1,15 +1,20 @@
 #! /bin/bash -f
 
 ## Define path to your code directory
-RDIR="/Users/mathildedue/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/master_bioinformatics/1.semester/22125_algorithms_in_bioinformatics/BioAlgoProject2025/code"
+RDIR="/mnt/c/Users/nicol/OneDrive - Danmarks Tekniske Universitet/Algorithms in bioinformatics F25/BioAlgoProject2025/code"
 
 ## Define path you where you have placed the HLA data sets
-DDIR="/Users/mathildedue/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/master_bioinformatics/1.semester/22125_algorithms_in_bioinformatics/BioAlgoProject2025/data/PSSM"
+DDIR="/mnt/c/Users/nicol/OneDrive - Danmarks Tekniske Universitet/Algorithms in bioinformatics F25/BioAlgoProject2025/data/PSSM"
 
-RESDIR="/Users/mathildedue/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/master_bioinformatics/1.semester/22125_algorithms_in_bioinformatics/BioAlgoProject2025/results/PSSM"
+RESDIR="/mnt/c/Users/nicol/OneDrive - Danmarks Tekniske Universitet/Algorithms in bioinformatics F25/BioAlgoProject2025/results/PSSM"
 
 cd ../../
-cd $RESDIR
+cd "$RESDIR"
+
+find "$RESDIR" -name "e00*.eval" -delete
+find "$RESDIR" -name "e00*.pcc" -delete
+find "$RESDIR" -name "summary_eval.txt" -delete
+
 # Here you can type your allele names
 # A0201 A0202 A1101 A3001 B0702 B1501 B5401 B5701
 for a in A0201 A0202 A1101 A3001 B0702 B1501 B5401 B5701
@@ -47,7 +52,10 @@ then
 	# Use the learned matrix to score peptides from the test set.
     # Save predictions to c00n.pred (ignore lines starting with "PCC:").
 	# python $RDIR/PSSM/pep2score.py -mat mat.$n -f  $DDIR/$a/c00$n | grep -v "PCC:" > c00$n.pred
-	python $RDIR/PSSM/pep2score.py -mat mat.$n -f  $DDIR/$a/e000.csv | tee >(grep "PCC:" > e00$n.pcc) | grep -v "PCC:" > e00$n.eval
+	python "$RDIR/PSSM/pep2score.py" -mat mat.$n -f "$DDIR/$a/e000.csv" | tee >(grep "PCC:" > e00$n.pcc) | grep -v "PCC:" > e00$n.eval
+
+	# Add binary columns: 1 if value > 0.426, else 0
+	awk '{bin2=($2>0.426)?1:0; bin3=($3>0.426)?1:0; print $0, bin2, bin3}' e00$n.eval > e00$n.eval.tmp && mv e00$n.eval.tmp e00$n.eval
 fi
 
 done
@@ -56,7 +64,7 @@ done
 # Print allele, lambda, followed by:
 # - calculated correlation between predicted and actual values (by xycorr)
 # - MSE (Mean Squared Error) over all predictions.
-echo $a $beta `cat e00{1..4}.eval | grep -v "#" | gawk '{print $2,$3}' | $RDIR/xycorr` \
+echo $a $beta `cat e00{1..4}.eval | grep -v "#" | gawk '{print $2,$3}' | "$RDIR/xycorr"` \
 	   `cat e00{1..4}.eval | grep -v "#" | gawk '{print $2,$3}' | gawk 'BEGIN{n+0; e=0.0}{n++; e += ($1-$2)*($1-$2)}END{print "MSE:", e/n}' ` >> ../summary_eval.txt
 
 cd ..
