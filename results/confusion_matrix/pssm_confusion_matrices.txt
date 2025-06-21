@@ -1,0 +1,222 @@
+Confusion matrix for A0201.res beta=10 e001:
+[[  0   0]
+ [  4 233]]
+
+Confusion matrix for A0201.res beta=10 e002:
+[[  0   0]
+ [  5 232]]
+
+Confusion matrix for A0201.res beta=10 e003:
+[[  0   0]
+ [  4 233]]
+
+Confusion matrix for A0201.res beta=10 e004:
+[[  0   0]
+ [  4 233]]
+
+Confusion matrix for A0201.res beta=50 e001:
+[[237]]
+
+Confusion matrix for A0201.res beta=50 e002:
+[[  0   0]
+ [  1 236]]
+
+Confusion matrix for A0201.res beta=50 e003:
+[[237]]
+
+Confusion matrix for A0201.res beta=50 e004:
+[[  0   0]
+ [  1 236]]
+
+Confusion matrix for A0202.res beta=10 e001:
+[[  0   0]
+ [  3 127]]
+
+Confusion matrix for A0202.res beta=10 e002:
+[[  0   0]
+ [  3 127]]
+
+Confusion matrix for A0202.res beta=10 e003:
+[[  0   0]
+ [  2 128]]
+
+Confusion matrix for A0202.res beta=10 e004:
+[[  0   0]
+ [  2 128]]
+
+Confusion matrix for A0202.res beta=50 e001:
+[[  0   0]
+ [  2 128]]
+
+Confusion matrix for A0202.res beta=50 e002:
+[[  0   0]
+ [  2 128]]
+
+Confusion matrix for A0202.res beta=50 e003:
+[[  0   0]
+ [  2 128]]
+
+Confusion matrix for A0202.res beta=50 e004:
+[[  0   0]
+ [  2 128]]
+
+Confusion matrix for A1101.res beta=10 e001:
+[[  0   0]
+ [  1 138]]
+
+Confusion matrix for A1101.res beta=10 e002:
+[[139]]
+
+Confusion matrix for A1101.res beta=10 e003:
+[[139]]
+
+Confusion matrix for A1101.res beta=10 e004:
+[[139]]
+
+Confusion matrix for A1101.res beta=50 e001:
+[[139]]
+
+Confusion matrix for A1101.res beta=50 e002:
+[[139]]
+
+Confusion matrix for A1101.res beta=50 e003:
+[[139]]
+
+Confusion matrix for A1101.res beta=50 e004:
+[[139]]
+
+Confusion matrix for A3001.res beta=10 e001:
+[[ 0  0]
+ [ 2 14]]
+
+Confusion matrix for A3001.res beta=10 e002:
+[[ 0  0]
+ [ 1 15]]
+
+Confusion matrix for A3001.res beta=10 e003:
+[[ 0  0]
+ [ 3 13]]
+
+Confusion matrix for A3001.res beta=10 e004:
+[[ 0  0]
+ [ 1 15]]
+
+Confusion matrix for A3001.res beta=50 e001:
+[[ 0  0]
+ [ 1 15]]
+
+Confusion matrix for A3001.res beta=50 e002:
+[[16]]
+
+Confusion matrix for A3001.res beta=50 e003:
+[[ 0  0]
+ [ 2 14]]
+
+Confusion matrix for A3001.res beta=50 e004:
+[[ 0  0]
+ [ 1 15]]
+
+Confusion matrix for B0702.res beta=10 e001:
+[[42]]
+
+Confusion matrix for B0702.res beta=10 e002:
+[[ 0  0]
+ [ 1 41]]
+
+Confusion matrix for B0702.res beta=10 e003:
+[[42]]
+
+Confusion matrix for B0702.res beta=10 e004:
+[[42]]
+
+Confusion matrix for B0702.res beta=50 e001:
+[[42]]
+
+Confusion matrix for B0702.res beta=50 e002:
+[[42]]
+
+Confusion matrix for B0702.res beta=50 e003:
+[[42]]
+
+Confusion matrix for B0702.res beta=50 e004:
+[[42]]
+
+Confusion matrix for B1501.res beta=10 e001:
+[[ 0  0]
+ [ 1 35]]
+
+Confusion matrix for B1501.res beta=10 e002:
+[[ 0  0]
+ [ 4 32]]
+
+Confusion matrix for B1501.res beta=10 e003:
+[[ 0  0]
+ [ 2 34]]
+
+Confusion matrix for B1501.res beta=10 e004:
+[[ 0  0]
+ [ 3 33]]
+
+Confusion matrix for B1501.res beta=50 e001:
+[[36]]
+
+Confusion matrix for B1501.res beta=50 e002:
+[[36]]
+
+Confusion matrix for B1501.res beta=50 e003:
+[[ 0  0]
+ [ 1 35]]
+
+Confusion matrix for B1501.res beta=50 e004:
+[[36]]
+
+Confusion matrix for B5401.res beta=10 e001:
+[[ 0  0]
+ [ 1 16]]
+
+Confusion matrix for B5401.res beta=10 e002:
+[[ 0  0]
+ [ 1 16]]
+
+Confusion matrix for B5401.res beta=10 e003:
+[[17]]
+
+Confusion matrix for B5401.res beta=10 e004:
+[[17]]
+
+Confusion matrix for B5401.res beta=50 e001:
+[[17]]
+
+Confusion matrix for B5401.res beta=50 e002:
+[[17]]
+
+Confusion matrix for B5401.res beta=50 e003:
+[[17]]
+
+Confusion matrix for B5401.res beta=50 e004:
+[[17]]
+
+Confusion matrix for B5701.res beta=10 e001:
+[[3]]
+
+Confusion matrix for B5701.res beta=10 e002:
+[[3]]
+
+Confusion matrix for B5701.res beta=10 e003:
+[[3]]
+
+Confusion matrix for B5701.res beta=10 e004:
+[[3]]
+
+Confusion matrix for B5701.res beta=50 e001:
+[[3]]
+
+Confusion matrix for B5701.res beta=50 e002:
+[[3]]
+
+Confusion matrix for B5701.res beta=50 e003:
+[[3]]
+
+Confusion matrix for B5701.res beta=50 e004:
+[[3]]
+
