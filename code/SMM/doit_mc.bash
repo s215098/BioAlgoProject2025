@@ -1,10 +1,14 @@
 #! /bin/bash -f
 
 ## Define path to your code directory
-RDIR="/mnt/c/Users/nicol/OneDrive - Danmarks Tekniske Universitet/Algorithms in bioinformatics F25/BioAlgoProject2025/code"
+#RDIR="/mnt/c/Users/nicol/OneDrive - Danmarks Tekniske Universitet/Algorithms in bioinformatics F25/BioAlgoProject2025/code"
+RDIR="/Users/mathildedue/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/master_bioinformatics/1.semester/22125_algorithms_in_bioinformatics/BioAlgoProject2025/code"
+
 
 ## Define path you where you have placed the HLA data sets
-DDIR="/mnt/c/Users/nicol/OneDrive - Danmarks Tekniske Universitet/Algorithms in bioinformatics F25/BioAlgoProject2025/data/all_files_new"
+#DDIR="/mnt/c/Users/nicol/OneDrive - Danmarks Tekniske Universitet/Algorithms in bioinformatics F25/BioAlgoProject2025/data/all_files_new"
+DDIR="/Users/mathildedue/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/master_bioinformatics/1.semester/22125_algorithms_in_bioinformatics/BioAlgoProject2025/data/all_files_new"
+
 
 rm -rf monte_carlo
 mkdir -p monte_carlo
@@ -12,7 +16,8 @@ cd monte_carlo
 
 # A0201 A0202 A1101 A3001 B0702 B1501 B5401 B5701
 # Here you can type your allele names
-for a in A0201 A0202 A1101 A3001 B0702 B1501 B5401 B5701
+#for a in A0201 A0202 A1101 A3001 B0702 B1501 B5401 B5701
+for a in A0202
 do
 
 mkdir -p $a.res
@@ -20,10 +25,12 @@ mkdir -p $a.res
 #cd $a.res
 
 # Here you can type the lambdas to test
-for l in 0 0.02 0.1 0.001
+#for l in 0 0.02 0.1 0.001
+for l in  0.1
 do
 
-for t_steps in 10 20 50 100
+#for t_steps in 10 20 50 100
+for t_steps in 100
 do
 
 #mkdir -p $l"_"$t_steps
@@ -39,7 +46,7 @@ do
 # Do training
 if [ ! -f mat.$n ] 
 then
-	python "$RDIR/SMM/smm_monte_carlo.py" -l $l -nT $t_steps -t "$DDIR/$a/f00$n".csv | grep -v "#" > mat.$n
+	python "$RDIR/SMM/smm_monte_carlo.py" -l $l -nT $t_steps -t "$DDIR/$a/f00$n".csv |  tee >(grep -i "#Time" >> all_times.log) | grep -v "#" > mat.$n
 fi
 
 # Do test
@@ -51,7 +58,7 @@ fi
 done
 
 # Do concatinated test
-echo $a $l $t_steps `cat c00{1..4}.pred | grep -v "#" | gawk '{print $2,$3}' | ../../../../xycorr` \
+echo $a $l $t_steps `cat c00{1..4}.pred | grep -v "#" | gawk '{print $2,$3}' | $RDIR/xycorr` \
 	   `cat c00{1..4}.pred | grep -v "#" | gawk '{print $2,$3}' | gawk 'BEGIN{n+0; e=0.0}{n++; e += ($1-$2)*($1-$2)}END{print "MSE:", e/n}' ` >> ../summary.txt
 
 cd ..
