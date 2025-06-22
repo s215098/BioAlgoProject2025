@@ -116,6 +116,9 @@ pssm <- read_csv("../results/PSSM/summary_all_pssm.csv")
 
 # Harmonize columns
 ann_clean <- ann %>%
+    filter(
+    lr == "0.05"
+  ) %>% 
   select(model_type, allele, train_size, PCC, lr, hid_neu, encoding)
 
 smm_clean <- smm %>%
@@ -125,6 +128,9 @@ smm_clean <- smm %>%
   select(model_type, allele, train_size, PCC, approach, lambda, temp)
 
 pssm_clean <- pssm %>%
+    filter(
+    beta == "50"
+  ) %>% 
   select(model_type, allele, train_size, PCC, beta)
 
 
@@ -219,7 +225,9 @@ pcc_combi <- ggplot(pcc_data, aes(x = allele, y = PCC, color = hyperparam_combo,
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
   # facet_wrap(~model_type, ncol = 1)
 
-ggsave("../results/Plots/pcc_by_allele_plot.png", plot = pcc_combi, dpi = 300, width = 12, height = 8, units = "in")
+pcc_combi
+
+ggsave("../Plots/pcc_by_allele_plot.png", plot = pcc_combi, width = 12, height = 8, units = "in")
 
 ```
 
@@ -242,4 +250,8 @@ ggplot(pcc_data, aes(x = PCC, y = allele, fill = model_type)) +
   geom_density_ridges(alpha = 0.7, scale = 1.2) +
   facet_wrap(~hyperparam_combo) +
   theme_minimal()
+```
+
+```{r}
+
 ```
