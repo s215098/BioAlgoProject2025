@@ -1,2 +1,4 @@
 B1501 blosum Hidden neurons: 5 Epsilon: 0.05 N= 784 PCC: 0.76826 MSE: 0.0149457
 B1501 blosum Hidden neurons: 5 Epsilon: 0.1 N= 784 PCC: 0.76699 MSE: 0.0150793
+B1501 sparse Hidden neurons: 5 Epsilon: 0.05 N= 784 PCC: 0.71612 MSE: 0.0176876
+B1501 sparse Hidden neurons: 5 Epsilon: 0.1 N= 784 PCC: 0.72979 MSE: 0.0171986

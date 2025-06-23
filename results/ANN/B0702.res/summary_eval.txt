@@ -1,2 +1,4 @@
 B0702 blosum Hidden neurons: 5 Epsilon: 0.05 N= 1012 PCC: 0.79563 MSE: 0.0201218
 B0702 blosum Hidden neurons: 5 Epsilon: 0.1 N= 1012 PCC: 0.79801 MSE: 0.019997
+B0702 sparse Hidden neurons: 5 Epsilon: 0.05 N= 1012 PCC: 0.79986 MSE: 0.0196096
+B0702 sparse Hidden neurons: 5 Epsilon: 0.1 N= 1012 PCC: 0.79957 MSE: 0.0196472
