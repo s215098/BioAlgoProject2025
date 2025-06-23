@@ -1,0 +1,48 @@
+Confusion matrix for A0201 l=0.1 concat:
+[[1317  191]
+ [ 177  787]]
+F1 score: 0.8105
+Accuracy: 0.8511
+
+Confusion matrix for A0202 l=0.1 concat:
+[[465 151]
+ [ 96 448]]
+F1 score: 0.7839
+Accuracy: 0.7871
+
+Confusion matrix for A1101 l=0.1 concat:
+[[833 175]
+ [ 99 481]]
+F1 score: 0.7783
+Accuracy: 0.8275
+
+Confusion matrix for A3001 l=0.1 concat:
+[[457  23]
+ [ 29  27]]
+F1 score: 0.5094
+Accuracy: 0.9030
+
+Confusion matrix for B0702 l=0.1 concat:
+[[765  75]
+ [ 51 121]]
+F1 score: 0.6576
+Accuracy: 0.8755
+
+Confusion matrix for B1501 l=0.1 concat:
+[[610  14]
+ [ 92  68]]
+F1 score: 0.5620
+Accuracy: 0.8648
+
+Confusion matrix for B5401 l=0.1 concat:
+[[92 40]
+ [19 53]]
+F1 score: 0.6424
+Accuracy: 0.7108
+
+Confusion matrix for B5701 l=0.1 concat:
+[[37  3]
+ [ 8  0]]
+F1 score: 0.0000
+Accuracy: 0.7708
+

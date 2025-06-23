@@ -1,0 +1,54 @@
+Confusion matrix for A0201 encoding=blosum hidden=5 epi=0.05 concat:
+[[31  9]
+ [ 8  0]]
+F1 score: 0.0000
+Accuracy: 0.6458
+
+Confusion matrix for A0202 encoding=blosum hidden=5 epi=0.05 concat:
+[[31  9]
+ [ 8  0]]
+F1 score: 0.0000
+Accuracy: 0.6458
+
+Confusion matrix for A0202 encoding=blosum hidden=5 epi=0.05 concat:
+[[31  9]
+ [ 8  0]]
+F1 score: 0.0000
+Accuracy: 0.6458
+
+Confusion matrix for A1101 encoding=blosum hidden=5 epi=0.05 concat:
+[[31  9]
+ [ 8  0]]
+F1 score: 0.0000
+Accuracy: 0.6458
+
+Confusion matrix for A3001 encoding=blosum hidden=5 epi=0.05 concat:
+[[31  9]
+ [ 8  0]]
+F1 score: 0.0000
+Accuracy: 0.6458
+
+Confusion matrix for B0702 encoding=blosum hidden=5 epi=0.05 concat:
+[[31  9]
+ [ 8  0]]
+F1 score: 0.0000
+Accuracy: 0.6458
+
+Confusion matrix for B1501 encoding=blosum hidden=5 epi=0.05 concat:
+[[31  9]
+ [ 8  0]]
+F1 score: 0.0000
+Accuracy: 0.6458
+
+Confusion matrix for B5401 encoding=blosum hidden=5 epi=0.05 concat:
+[[31  9]
+ [ 8  0]]
+F1 score: 0.0000
+Accuracy: 0.6458
+
+Confusion matrix for B5701 encoding=blosum hidden=5 epi=0.05 concat:
+[[31  9]
+ [ 8  0]]
+F1 score: 0.0000
+Accuracy: 0.6458
+

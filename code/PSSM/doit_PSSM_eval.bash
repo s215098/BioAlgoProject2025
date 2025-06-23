@@ -11,9 +11,15 @@ RESDIR="/mnt/c/Users/nicol/OneDrive - Danmarks Tekniske Universitet/Algorithms i
 cd ../../
 cd "$RESDIR"
 
+find "$RESDIR" -name "e00*_test.eval" -delete
+find "$RESDIR" -name "e00*_test.pcc" -delete
+find "$RESDIR" -name "e00*_test.tmp" -delete
+find "$RESDIR" -name "summary_eval_test.txt" -delete
 find "$RESDIR" -name "e00*.eval" -delete
 find "$RESDIR" -name "e00*.pcc" -delete
+find "$RESDIR" -name "e00*.tmp" -delete
 find "$RESDIR" -name "summary_eval.txt" -delete
+find "$RESDIR" -name "concat_test.eval" -delete
 
 # Here you can type your allele names
 # A0201 A0202 A1101 A3001 B0702 B1501 B5401 B5701
@@ -52,7 +58,7 @@ then
 	# Use the learned matrix to score peptides from the test set.
     # Save predictions to c00n.pred (ignore lines starting with "PCC:").
 	# python $RDIR/PSSM/pep2score.py -mat mat.$n -f  $DDIR/$a/c00$n | grep -v "PCC:" > c00$n.pred
-	python "$RDIR/PSSM/pep2score.py" -mat mat.$n -f "$DDIR/$a/e000.csv" | tee >(grep "PCC:" > e00$n.pcc) | grep -v "PCC:" > e00$n.eval
+	python "$RDIR/PSSM/pep2score.py" -mat mat.$n -f "$DDIR/$a/e000_mixed.csv" | tee >(grep "PCC:" > e00$n.pcc) | grep -v "PCC:" > e00$n.eval
 
 	# Add binary columns: 1 if value > 0.426, else 0
 	awk '{bin2=($2>0.426)?1:0; bin3=($3>0.426)?1:0; print $0, bin2, bin3}' e00$n.eval > e00$n.eval.tmp && mv e00$n.eval.tmp e00$n.eval
