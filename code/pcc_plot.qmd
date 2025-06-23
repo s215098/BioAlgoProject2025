@@ -1,0 +1,257 @@
+---
+title: "get_auc"
+author: "Albe24"
+format: html
+editor: visual
+---
+
+```{r}
+library("tidyverse")
+```
+
+```{r}
+data_auc <- read.csv("data/ANN_AUC.csv")
+data_auc <- data_auc %>%
+  mutate(lr = str_extract(hyperparam_combo, "[0-9.]+$"))
+```
+
+```{r}
+data_auc_filtered <- data_auc %>%
+  group_by(model_type, train_size, hyperparam_combo) %>%
+  slice_max(order_by = AUC, n = 1, with_ties = FALSE) %>%
+  ungroup()
+```
+
+```{r}
+data_auc_filtered %>% 
+  filter(lr == "0.05") %>% 
+ggplot(aes(x = train_size, y = AUC)) +
+  geom_density_2d() +
+  coord_cartesian(ylim = c(0, 1)) +
+  labs(
+    title = "Density Plot of AUC vs. Training Size",
+    x = "Training Set Size",
+    y = "AUC"
+  )
+```
+
+```{r}
+data_auc_filtered %>%
+  filter(lr == "0.05") %>%
+  ggplot(aes(x = train_size, y = AUC)) +
+  geom_point(alpha = 0.4, color = "gray50") +         # raw data points
+  geom_smooth(method = "loess", se = TRUE, color = "blue", fill = "lightblue") +  # smoothed trend line
+  coord_cartesian(ylim = c(0, 1)) +
+  labs(
+    title = "Smoothed AUC Curve by Training Set Size (lr = 0.05)",
+    x = "Training Set Size",
+    y = "AUC"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+data_auc_filtered %>%
+  filter(lr == "0.05") %>%
+  ggplot(aes(x = train_size, y = AUC)) +
+  stat_summary_bin(fun = mean, bins = 10, geom = "col", fill = "skyblue", alpha = 0.5) +
+  geom_smooth(method = "loess", se = FALSE, color = "darkblue", size = 1.2) +
+  coord_cartesian(ylim = c(0, 1)) +
+  labs(
+    title = "Binned AUC Summary with Smoothed Trend (lr = 0.05)",
+    x = "Training Set Size",
+    y = "AUC"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+train_sizes <- unique(data_auc_filtered$train_size)
+replicates <- 1:4
+
+simulate_model <- function(model_name, mean_auc, sd_auc) {
+  expand_grid(
+    model_type = model_name,
+    train_size = train_sizes,
+    replicate_id = replicates
+  ) %>%
+    mutate(
+      AUC = rnorm(n(), mean = mean_auc, sd = sd_auc),
+      hyperparam_combo = "sim_5_0.05",
+      lr = "0.05"
+    )
+}
+
+poor_model <- simulate_model("POOR_MODEL", 0.60, 0.04)
+medium_model <- simulate_model("MEDIUM_MODEL", 0.75, 0.03)
+
+# Add to original tibble
+data_auc_filtered <- bind_rows(data_auc_filtered, poor_model, medium_model)
+
+# Plot
+data_auc_filtered %>%
+  filter(lr == "0.05") %>%
+  ggplot(aes(x = train_size, y = AUC, color = model_type)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = "loess", se = TRUE, fill = "lightblue") +
+  coord_cartesian(ylim = c(0, 1)) +
+  labs(
+    title = "Smoothed AUC Curve by Training Set Size (lr = 0.05)",
+    x = "Training Set Size",
+    y = "AUC"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+# Load required libraries
+library(tidyverse)
+library(ggridges)
+library(hrbrthemes)
+
+# Load CSV files
+ann <- read_csv("../results/ANN/summary_all_ann.csv")
+smm <- read_csv("../results/SMM/summary_all_smm.csv")
+pssm <- read_csv("../results/PSSM/summary_all_pssm.csv")
+
+# Harmonize columns
+ann_clean <- ann %>%
+    filter(
+    lr == "0.05"
+  ) %>% 
+  select(model_type, allele, train_size, PCC, lr, hid_neu, encoding)
+
+smm_clean <- smm %>%
+  filter(
+    lambda == "0.1"
+  ) %>% 
+  select(model_type, allele, train_size, PCC, approach, lambda, temp)
+
+pssm_clean <- pssm %>%
+    filter(
+    beta == "50"
+  ) %>% 
+  select(model_type, allele, train_size, PCC, beta)
+
+
+ann_clean <- ann_clean %>%
+  mutate(hyperparam_combo = paste0(model_type, ", ", encoding, ", lr=", lr, ", hn=", hid_neu))
+
+smm_clean <- smm_clean %>%
+  mutate(
+    hyperparam_combo = case_when(
+      approach == "MC" ~ paste0(model_type, ", ", approach, ", lambda=", lambda, ", T=", temp),
+      TRUE ~ paste0(model_type, ", ", approach, ", lambda=", lambda)
+    )
+  )
+
+beta_order <- c("5", "10", "50")
+
+pssm_clean <- pssm_clean %>%
+  mutate(
+    beta = factor(beta, levels = beta_order),
+    hyperparam_combo = paste0(model_type, ", ", "beta=", beta))
+
+# Combine into one tibble
+pcc_data <- bind_rows(ann_clean, smm_clean, pssm_clean) %>%
+  select(model_type, allele, train_size, PCC, hyperparam_combo)
+
+# Define custom model_type order
+model_order <- c("ANN", "SMM", "PSSM")
+
+# Reorder hyperparam_combo by model_type
+pcc_data <- pcc_data %>%
+  mutate(
+    model_type = factor(model_type, levels = model_order),
+    hyperparam_combo = fct_reorder(hyperparam_combo, as.integer(model_type))
+  )
+
+# Convert train_size to factor for ridgeline
+pcc_data_ridge <- pcc_data %>%
+  mutate(train_size = factor(train_size))
+
+pcc_data <- pcc_data %>%
+  mutate(allele = fct_reorder(allele, train_size, .desc = TRUE))
+```
+
+```{r}
+
+# Ridgeline plot
+ggplot(pcc_data_ridge, aes(x = PCC, y = train_size, fill = model_type)) +
+  geom_density_ridges(alpha = 0.7, scale = 1.2, color = "white") +
+  scale_fill_viridis_d() +
+  theme_minimal() +
+  labs(
+    title = "Ridgeline Plot of PCC by Training Set Size",
+    x = "PCC",
+    y = "Training Set Size"
+  )
+
+# Smoothed curve plot
+ggplot(pcc_data, aes(x = train_size, y = PCC, color = model_type)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "loess", se = TRUE) +
+  theme_minimal() +
+  labs(
+    title = "Smoothed PCC Curve by Training Set Size",
+    x = "Training Set Size",
+    y = "PCC"
+  )
+```
+
+```{r}
+# Ridgeline plot (PCC distribution per allele)
+ggplot(pcc_data, aes(x = PCC, y = allele, fill = hyperparam_combo)) +
+  geom_density_ridges(alpha = 0.7, scale = 1.2, color = "white") +
+  scale_fill_viridis_d() +
+  theme_minimal() +
+  labs(
+    title = "Ridgeline Plot of PCC by Allele",
+    x = "PCC",
+    y = "Allele"
+  )
+
+# Smoothed curve plot (PCC per allele with loess smoothing)
+pcc_combi <- ggplot(pcc_data, aes(x = allele, y = PCC, color = hyperparam_combo, group = hyperparam_combo)) +
+  geom_point(alpha = 0.5, position = position_jitter(width = 0.2)) +
+  geom_smooth(method = "loess", se = TRUE, alpha = 0.1) +
+  theme_minimal() +
+  labs(
+    title = "PCC by MHC allele, sorted from largest to smallest dataset",
+    x = "Allele",
+    y = "PCC",
+    color = "Model + hyperparameters"
+  ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  # facet_wrap(~model_type, ncol = 1)
+
+pcc_combi
+
+ggsave("../Plots/pcc_by_allele_plot.png", plot = pcc_combi, width = 12, height = 8, units = "in")
+
+```
+
+```{r}
+pcc_data %>%
+  filter(model_type == "PSSM") %>%
+  count(allele) %>%
+  arrange(n)
+```
+
+```{r}
+ggplot(pcc_data, aes(x = PCC, y = allele, fill = model_type)) +
+  geom_density_ridges(alpha = 0.7, scale = 1.2) +
+  facet_wrap(~hyperparam_combo) +
+  theme_minimal()
+```
+
+```{r}
+ggplot(pcc_data, aes(x = PCC, y = allele, fill = model_type)) +
+  geom_density_ridges(alpha = 0.7, scale = 1.2) +
+  facet_wrap(~hyperparam_combo) +
+  theme_minimal()
+```
+
+```{r}
+
+```

@@ -1,26 +1,26 @@
 #! /bin/bash -f
 
 ## Define path to your code directory
-#RDIR="/Users/mathildedue/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/master_bioinformatics/1.semester/22125_algorithms_in_bioinformatics/BioAlgoProject2025/code"
+RDIR="/Users/mathildedue/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/master_bioinformatics/1.semester/22125_algorithms_in_bioinformatics/BioAlgoProject2025/code"
 
 ## Define path you where you have placed the HLA data sets
-#DDIR="/Users/mathildedue/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/master_bioinformatics/1.semester/22125_algorithms_in_bioinformatics/BioAlgoProject2025/data/all_files_new"
+DDIR="/Users/mathildedue/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/master_bioinformatics/1.semester/22125_algorithms_in_bioinformatics/BioAlgoProject2025/data/all_files_new"
 
-#RESDIR="/Users/mathildedue/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/master_bioinformatics/1.semester/22125_algorithms_in_bioinformatics/BioAlgoProject2025/results/ANN"
+RESDIR="/Users/mathildedue/Library/CloudStorage/OneDrive-DanmarksTekniskeUniversitet/master_bioinformatics/1.semester/22125_algorithms_in_bioinformatics/BioAlgoProject2025/results/ANN"
 
-RDIR="/mnt/c/Users/nicol/OneDrive - Danmarks Tekniske Universitet/Algorithms in bioinformatics F25/BioAlgoProject2025/code"
+#RDIR="/mnt/c/Users/nicol/OneDrive - Danmarks Tekniske Universitet/Algorithms in bioinformatics F25/BioAlgoProject2025/code"
 
 ## Define path you where you have placed the HLA data sets
-DDIR="/mnt/c/Users/nicol/OneDrive - Danmarks Tekniske Universitet/Algorithms in bioinformatics F25/BioAlgoProject2025/data/all_files_new"
+#DDIR="/mnt/c/Users/nicol/OneDrive - Danmarks Tekniske Universitet/Algorithms in bioinformatics F25/BioAlgoProject2025/data/all_files_new"
 
-RESDIR="/mnt/c/Users/nicol/OneDrive - Danmarks Tekniske Universitet/Algorithms in bioinformatics F25/BioAlgoProject2025/results/ANN"
+#RESDIR="/mnt/c/Users/nicol/OneDrive - Danmarks Tekniske Universitet/Algorithms in bioinformatics F25/BioAlgoProject2025/results/ANN"
 
 cd ../../
 cd "$RESDIR"
 
-find "$RESDIR" -name "e00*.eval" -delete
-find "$RESDIR" -name "e00*.pcc" -delete
-find "$RESDIR" -name "summary_eval.txt" -delete
+# find "$RESDIR" -name "e00*.eval" -delete
+# find "$RESDIR" -name "e00*.pcc" -delete
+# find "$RESDIR" -name "summary_eval.txt" -delete
 
 # A0201 A0202 A1101 A3001 B0702 B1501 B5401
 # Here you can type your allele names
@@ -30,7 +30,7 @@ do
 cd $a.res
 
 # Here you can type the encoding to test
-for sc in blosum
+for sc in sparse
 do
 
 cd $sc
